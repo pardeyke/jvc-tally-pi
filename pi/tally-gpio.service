@@ -1,0 +1,16 @@
+[Unit]
+Description=JVC tally GPIO HTTP service
+After=network.target
+
+[Service]
+Type=simple
+User=companion
+Group=gpio
+WorkingDirectory=/tmp
+# Edit pins / add monitors here (BCM numbering). Add --active-low if relay jumper is on L.
+ExecStart=/usr/bin/python3 /opt/tally-gpio/tally_gpio.py --monitor mon1=17,27 --bind 0.0.0.0 --port 8765
+Restart=always
+RestartSec=2
+
+[Install]
+WantedBy=multi-user.target
