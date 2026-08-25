@@ -36,7 +36,9 @@ Truth table: program (red) = GPIO17 HIGH; preview (green) = 17+27 HIGH; off = 17
 ### Monitor side (REMOTE = MAKE/TRIGGER RJ‑45, contact closure to GND)
 
 - Menu: external control system = **MAKE** (not TRIGGER, which pulse-toggles),
-  assign **TALLY SEL** to pin 1, pick the TALLY SEL colour.
+  assign **TALLY SEL** to pin 1, and set the menu tally colour to **RED** —
+  the TALLY SEL pin only forces green when closed; open falls back to the menu
+  colour, so a menu set to green means green in both states.
 - Pin 6→8 closed = lamp on; TALLY SEL pin closed = green instead of red.
 - **Pin 7 (ENABLE) must be closed for TALLY SEL to work** (verified on hardware;
   the manual only exempts pin 6). Hence the permanent 7↔8 strap.
