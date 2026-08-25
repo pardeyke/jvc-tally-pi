@@ -39,9 +39,10 @@ Truth table: program (red) = GPIO17 HIGH; preview (green) = 17+27 HIGH; off = 17
   pin 1**, then **switch PARALLEL TYPE back to MAKE** — in SET the assignments are
   edited but external control is not active (only the special-cased TALLY pin 6
   keeps working, which is misleading). TRIGGER pulse-toggles; don't use it.
-  Also set the menu tally colour to **RED** —
-  the TALLY SEL pin only forces green when closed; open falls back to the menu
-  colour, so a menu set to green means green in both states.
+  Set the menu tally colour to **GREEN**: measured on hardware, the TALLY SEL
+  pin shows the *menu* colour when closed and the *opposite* colour when open
+  (the manual's "closed = green" is only true with the menu on green). With our
+  wiring (closed = preview): menu GREEN → program red, preview green.
 - Pin 6→8 closed = lamp on; TALLY SEL pin closed = green instead of red.
 - **Pin 7 (ENABLE) must be closed for TALLY SEL to work** (verified on hardware;
   the manual only exempts pin 6). Hence the permanent 7↔8 strap.
