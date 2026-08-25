@@ -35,8 +35,11 @@ Truth table: program (red) = GPIO17 HIGH; preview (green) = 17+27 HIGH; off = 17
 
 ### Monitor side (REMOTE = MAKE/TRIGGER RJ‑45, contact closure to GND)
 
-- Menu: external control system = **MAKE** (not TRIGGER, which pulse-toggles),
-  assign **TALLY SEL** to pin 1, and set the menu tally colour to **RED** —
+- Menu (REMOTE SETTING): set **PARALLEL TYPE = SET** to assign **TALLY SEL to
+  pin 1**, then **switch PARALLEL TYPE back to MAKE** — in SET the assignments are
+  edited but external control is not active (only the special-cased TALLY pin 6
+  keeps working, which is misleading). TRIGGER pulse-toggles; don't use it.
+  Also set the menu tally colour to **RED** —
   the TALLY SEL pin only forces green when closed; open falls back to the menu
   colour, so a menu set to green means green in both states.
 - Pin 6→8 closed = lamp on; TALLY SEL pin closed = green instead of red.
