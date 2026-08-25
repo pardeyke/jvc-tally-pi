@@ -13,7 +13,8 @@ id companion >/dev/null 2>&1 || SVC_USER="${SUDO_USER:-pi}"
 sed -i "s/^User=.*/User=${SVC_USER}/" /etc/systemd/system/tally-gpio.service
 usermod -aG gpio "${SVC_USER}" || true
 systemctl daemon-reload
-systemctl enable --now tally-gpio.service
+systemctl enable tally-gpio.service
+systemctl restart tally-gpio.service
 sleep 1
 systemctl --no-pager --lines=5 status tally-gpio.service || true
 echo
