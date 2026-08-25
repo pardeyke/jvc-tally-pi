@@ -7,6 +7,7 @@ Type=simple
 User=companion
 Group=gpio
 WorkingDirectory=/tmp
+StateDirectory=tally-gpio
 # Edit pins / add monitors here (BCM numbering). Add --active-low if relay jumper is on L.
 ExecStart=/usr/bin/python3 /opt/tally-gpio/tally_gpio.py --monitor mon1=17,27 --bind 0.0.0.0 --port 8765
 Restart=always

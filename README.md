@@ -39,10 +39,12 @@ Truth table: program (red) = GPIO17 HIGH; preview (green) = 17+27 HIGH; off = 17
   pin 1**, then **switch PARALLEL TYPE back to MAKE** — in SET the assignments are
   edited but external control is not active (only the special-cased TALLY pin 6
   keeps working, which is misleading). TRIGGER pulse-toggles; don't use it.
-  Set the menu tally colour to **GREEN**: measured on hardware, the TALLY SEL
-  pin shows the *menu* colour when closed and the *opposite* colour when open
-  (the manual's "closed = green" is only true with the menu on green). With our
-  wiring (closed = preview): menu GREEN → program red, preview green.
+  **TALLY SEL is an edge-triggered toggle** (measured on hardware): each
+  closure flips red↔green and the monitor latches the colour. The Pi service
+  therefore tracks the latched colour and pulses the SEL relay only when the
+  colour must change; the tracked colour persists across service restarts.
+  If tracker and lamp ever disagree (fresh monitor, manual toggling), sync once
+  via `/calibrate/mon1/red|green` or the module's *Calibrate lamp colour* action.
 - Pin 6→8 closed = lamp on; TALLY SEL pin closed = green instead of red.
 - **Pin 7 (ENABLE) must be closed for TALLY SEL to work** (verified on hardware;
   the manual only exempts pin 6). Hence the permanent 7↔8 strap.
@@ -69,9 +71,10 @@ cd pi && sudo ./install.sh     # python3-gpiozero + systemd service on :8765
 `pi/tally_gpio.py` is a small HTTP→GPIO service (gpiozero, works on Pi 3–5 /
 Bookworm). It forces relays off at start/stop and restarts automatically.
 
-- API: `/tally/<mon>/off|red|green` · `/pin/<bcm>/0|1` · `/state` · `/health` (GET or POST)
+- API: `/tally/<mon>/off|red|green` · `/calibrate/<mon>/red|green` · `/pin/<bcm>/0|1` · `/state` · `/health` (GET or POST)
 - Monitors/pins: edit `ExecStart` in `/etc/systemd/system/tally-gpio.service` —
-  e.g. add `--monitor mon2=22,23`; `--active-low` if the relay jumper is on L.
+  e.g. add `--monitor mon2=22,23`; `--active-low` if the relay jumper is on L;
+  `--sel-mode level` for monitors whose colour pin is level-based (default: toggle).
 
 Bench test without Companion: `./pi/test-tally.sh` (red → green → off via pinctrl),
 or from any host:
